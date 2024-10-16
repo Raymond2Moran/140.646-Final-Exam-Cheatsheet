@@ -1,0 +1,424 @@
+
+\documentclass{article}
+\usepackage[landscape]{geometry}
+\usepackage{url}
+\usepackage{multicol}
+\usepackage{amsmath}
+\usepackage{esint}
+\usepackage{amsfonts}
+\usepackage{tikz}
+\usetikzlibrary{decorations.pathmorphing}
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage{colortbl}
+\usepackage{xcolor}
+\usepackage{mathtools}
+\usepackage{amsmath,amssymb}
+\usepackage{enumitem}
+\usepackage[table,xcdraw]{xcolor}
+\makeatletter
+\newcommand*\bigcdot{\mathpalette\bigcdot@{.5}}
+\newcommand*\bigcdot@[2]{\mathbin{\vcenter{\hbox{\scalebox{#2}{$\m@th#1\bullet$}}}}}
+\makeatother
+
+\title{130 Cheat Sheet}
+\usepackage[brazilian]{babel}
+\usepackage[utf8]{inputenc}
+\geometry{top=.2in,left=.2in,right=.2in,bottom=.2in}
+\parindent0pt
+\parskip1pt
+\newcommand{\hr}{\centerline{\rule{3.5in}{1pt}}}
+%\colorbox[HTML]{e4e4e4}{\makebox[\textwidth-2\fboxsep][l]{texto}
+\begin{document}
+
+\begin{multicols*}{3}
+
+\tikzstyle{mybox} = [draw=white, fill=white, ultra thin,
+    rectangle, inner sep=10pt, inner ysep=10pt]
+\tikzstyle{fancytitle} =[fill=lightgray, text=black, rounded corners, font=\bfseries]
+
+
+%------------ General Formulas ---------------
+\begin{tikzpicture}
+\node [mybox] (box){%
+    \begin{minipage}{0.32\textwidth}
+    \footnotesize{
+    
+    \begin{tabular}{c|c}
+        Discrete & Continuous\\
+        \\  $\mathrm{E}[X^n]=\sum_k k^n\mathrm{P}(X=k)$ & $\mathrm{E}[X^n]=\int_{-\infty}^{\infty}x^nf(x)\,dx$\\
+\\ $\mathrm{E}[g(X)]=\sum_k g(k)\mathrm{P}(X=k)$ & $\mathrm{E}[g(X)]=\int_{-\infty}^{\infty}g(x)f(x)\,dx$\\
+        \\ $\mathrm{Var}[X]=\sum_k (k-\mu)^2\mathrm{P}(X=k)$ & $\mathrm{Var}[X]=\int_{-\infty}^{\infty}(x-\mu)^2f(x)\,dx$\\
+        \\
+    \end{tabular}
+    \textbf{Variance:}
+    \(\mathrm{Var}[X] = \mathrm{E}[X^2]-(\mathrm{E}[X])^2\,.\)
+    \\
+    \textbf{Linearity:} \(\mathrm{E}[aX+b] = a\mathrm{E}[X]+b\,\).
+    \\
+    \textbf{Homogeneity:} \(\mathrm{Var}[aX+b] = a^2\mathrm{Var}[X]\,\).
+    \\
+    \textbf{Important distributions:}
+    \begin{enumerate}
+        \item Bernoulli trials:\\
+        $\mathrm{E}[X]=p,\,\mathrm{Var}[X]=p(1-p)\,$.
+        \item Binomial distribution:\\
+        $\mathrm{E}[X]=np,\,\mathrm{E}[X^2]=np(np-p+1) \Rightarrow\,\mathrm{Var}[X]=np(1-p)\,$.
+        \item Geometric distribution:\\
+        $\mathrm{E}[X]=\frac{1}{p}, E[X^2]=\frac{2}{p^2}-\frac{1}{p}\Rightarrow\,\mathrm{Var}[X]=\frac{1}{p^2}-\frac{1}{p}\,$.
+    \end{enumerate}
+    Covariance: \(=0\) for independent RVs,
+    \[\mathrm{Cov}(X,Y) = \mathrm{E}[XY]-\mathrm{E}[X]\mathrm{E}[Y]\,.\]
+    \(\mathrm{E}[g(x)h(y)]=\mathrm{E}[g(x)]\mathrm{E}[h(y)]\,.\)\\
+    If not assume independence,
+    $\mathrm{Var}(X+Y)=\mathrm{Var}(X)+\mathrm{Var}(Y)+2\mathrm{Cov}(X,Y)\,.$\\
+    $P(A \cap B) = P(B)P(A|B)$, $P(A) = P(A\cap B)+P(A \cap B^c) = P(B)P(A|B) + P(B^c)P(A|B^c).$
+    }
+    \end{minipage}
+};
+%------------ General Formulas Header ---------------------
+\node[fancytitle, right=10pt] at (box.north west) {General Formulas};
+\end{tikzpicture}
+
+%------------ Geometric series ---------------
+\begin{tikzpicture}
+\node [mybox] (box){%
+    \footnotesize{
+    \begin{minipage}{0.32\textwidth}
+    Geometric series for\textbf{ $\boldsymbol{x}$ from 0 to $\boldsymbol{n}$} and from 0 to $\boldsymbol{\infty}$:
+    \[\sum_{k=0}^{n}x^k = \frac{1-x^{n+1}}{1-x}, \quad \sum_{k=0}^{\infty}x^k = \frac{1}{1-x}\]
+	
+    \textbf{Pay attention to switching indexes, a lot of counting starts from 1 instead of 0.}
+    \end{minipage}}
+};
+%------------ Geometric Series Header ---------------------
+\node[fancytitle, right=10pt] at (box.north west) {Geometric Series};
+\end{tikzpicture}
+
+%------------ Stats and their Distributions Content ---------------------
+\begin{tikzpicture}
+\node [mybox] (box){%
+\footnotesize{
+    \begin{minipage}{0.32\textwidth}
+    Let $X_1, X_2, \cdots, X_n$ be a random sample from a distribution with mean value $\mu$ and standard deviation $\sigma$. Then
+    \begin{enumerate}
+        \item $\mathrm{E}[\Bar{X}] = \mu_{\Bar{X}} = \mu \,.$
+        \item $\mathrm{Var}(\Bar{X}) = \sigma_{\Bar{X}}^2 = \sigma^2/n \,.$
+        \item $\sigma_{\Bar{X}} = \sigma/\sqrt{n} \,.$
+    \end{enumerate}
+    Additionally, with \(T_o = X_1 + \cdots + X_n\), we get
+    $\mathrm{E}[T_o] = n\mu$, $\mathrm{Var}[T_o] = n\sigma^2$, $\sigma_{T_o} = \sqrt{n}\sigma \,.$\\
+    
+    \end{minipage}}};
+%------------ Stats and their Distributions Header ---------------------
+\node[fancytitle, right=10pt] at (box.north west) {Stats and their Distributions};
+\end{tikzpicture}
+
+%------------ Stats and their Distributions Content ---------------------
+\begin{tikzpicture}
+\node [mybox] (box){%
+\footnotesize{
+    \begin{minipage}{0.32\textwidth}
+    Let $X_1, X_2, \cdots, X_n$ be i.i.d. random variables with $E[X_i] = \mu, \mathrm{Var}(X_i) = \sigma^2$, then we have \[P\Big(\frac{\bar{X}_n - \mu}{\sigma/\sqrt{n}} \leq z \Big) \longrightarrow \Phi(z)\]
+
+    as the sample size $n$ being sufficiently large.\\
+
+    i.e., $\displaystyle Z = \frac{\bar{X}_n - \mu}{\sigma/\sqrt{n}} \xrightarrow[d]{\text{converges }} \mathcal{N}(0,1)$.\\
+
+    Based on \textbf{CLT} we have the following:
+    \textbf{Test about a Population Mean:}\\
+    A normal population with \textbf{known} $\sigma$:\\
+    $H_0: \mu = \mu_0$, test statistics \(z = \frac{\Bar{x}-\mu_0}{\sigma/\sqrt{n}}\,.\)\\
+        \begin{tabular}{c|c|c}
+        $H_a$ & Rejection Region  &Confidence Interval\\
+        $\mu > \mu_0$ & $z \geq z_{1-\alpha}$ &$\Bar{x} - z_{\alpha}\cdot \frac{s}{\sqrt{n}}$\\
+        $\mu < \mu_0$ & $z \leq z_{\alpha}$  &$\Bar{x} + z_{\alpha}\cdot \frac{s}{\sqrt{n}}$\\
+        $\mu \neq \mu_0$ & $z \geq z_{1 - (\alpha/2)}$ or $z \leq z_{(\alpha/2)}$ 
+         &$\Bar{x} \pm z_{(\alpha/2)}\cdot \frac{s}{\sqrt{n}}$\end{tabular}
+    \\
+    \\
+    Large-sample size cases $\Rightarrow z = \frac{\bar{x}-\mu_0}{s/\sqrt{n}}$ could be used.\\
+    
+    A normal population with \textbf{unknown} $\sigma$, $n$ is small:\\
+    $H_0: \mu = \mu_0$, test statistics \(t = \frac{\Bar{x}-\mu_0}{s/\sqrt{n}}\,.\)\\
+        {\scriptsize
+        \begin{tabular}{c|c|c}
+        $H_a$ & Rejection Region  &Confidence Interval\\
+        $\mu > \mu_0$ & $t \geq t_{\alpha, n-1}$  &$\Bar{x} - t_{\alpha, n-1}\cdot \frac{s}{\sqrt{n}}$\\
+        $\mu < \mu_0$ & $t \leq -t_{\alpha, n-1}$  &$\Bar{x} + t_{\alpha, n-1}\cdot \frac{s}{\sqrt{n}}$\\
+        $\mu \neq \mu_0$ & $t \geq t_{(\alpha/2), n-1}$ or $t \leq -t_{(\alpha/2), n-1}$ 
+         &$\bar{x} \pm t_{(\alpha/2), n-1}\cdot \frac{s}{\sqrt{n}}$\end{tabular}}\\
+         \\
+         Two population mean difference: \\
+         Always assume unequal variance whenever you can\\ \\
+         \[t \text{ df = }\frac{(V_1 + V_2)^2}{\frac{V_1^2}{n_1 -1} + \frac{V_2^2}{n_2 -1}}, V_i = \frac{s_i^2}{n_i}.\]
+         $H_0: \mu_1 - \mu_2 = \Delta_0$, test statistics $t = \frac{\bar{x}_1-\bar{x}_2-\Delta_0}{\sqrt{\frac{s_1^2}{m}+\frac{s_2^2}{n}}}\,, \bar{x}_D = \bar{x}_1 - \bar{x}_2$ or vice versa, $\mathrm{SE} = \sqrt{\frac{s_1^2}{m} + \frac{s_2^2}{n}}.$ \\
+        {\scriptsize\begin{tabular}{c|c|c}
+        $H_a$ & Rejection Region  &Confidence Interval\\
+        $> \Delta_0$ & $t \geq t_{\alpha, n-1}$ &$\bar{x}_D - t_{\alpha, n-1}\cdot \mathrm{SE}
+        $\\
+        $< \Delta_0$ & $t \leq -t_{\alpha, n-1}$ &$\bar{x}_D + t_{\alpha, n-1}\cdot \mathrm{SE}$\\    
+        $ \neq \Delta_0$ & $t \geq t_{(\alpha/2), n-1}$ or $t \leq -t_{(\alpha/2), n-1}$
+         &$\bar{x}_D \pm t_{(\alpha/2), n-1}\cdot \mathrm{SE}$\end{tabular}}\\
+    \\
+    \end{minipage}}};
+%------------ Stats and their Distributions Header ---------------------
+\node[fancytitle, right=10pt] at (box.north west) {Central Limit Theorem};
+\end{tikzpicture}
+
+
+
+%------------ Bayes' Formula Content ---------------
+\begin{tikzpicture}
+\node [mybox] (box){%
+\footnotesize{
+    \begin{minipage}{0.32\textwidth}
+    If $P(A), P(B), P(B^c)>0$, then:
+\[P(B|A) = \frac{P(A\cap B)}{P(A)} = \frac{P(A| B)P(B)}{P(A|B)P(B)+P(A|B^c)P(B^c)}  \]
+\textbf{Generalize it for $\boldsymbol{n}$ events:}\\
+For partition of $\Omega:B_1\cdots B_n$,
+\[P(B_k|A) = \frac{P(A\cap B_k)}{P(A)} = \frac{P(A| B_k)P(B_k)}{\sum_{i=1}^nP(A|B_i)P(B_i)}\]
+    \end{minipage}}
+};
+%------------ Bayes' Formula Header ---------------------
+\node[fancytitle, right=10pt] at (box.north west) {Bayes' Formula};
+\end{tikzpicture}
+
+
+
+%------------ Independent trials & Distributions Content ---------------------
+\begin{tikzpicture}
+\node [mybox] (box){%
+\footnotesize
+    \begin{minipage}{0.32\textwidth}
+    Repeated trials, each trial is independent.\\
+
+    Let $n$ be a positive integer and $0\leq p \leq 1.$ A RV $X$ has \textbf{binomial distribution} with parameters $n \text{ and }p$ if the possible values of $X$ are $\{0,1,...,n\}$ and the probabilities are
+    \[P(X=k)={n \choose k}p^k(1-p)^{n-k} \text{ for }k=1,...,n.\]
+    Abbreviate this $X \sim \text{Bin}(n,p).$ \textit{Binomial is counting the successes.}\\
+    \\
+    Let $0 \le p \le 1.$ A RV $X$ has \textbf{geometric distribution} with success probability $p$ if the possible values of $X$ are $\{1,2,3,...\}$ and $X$ satisfies
+    \[P(X=k)=(1-p)^{k-1}p\text{ for }k=1,2,...\]
+    Here, $k$ means number of trails that happens. Abbreviate this $X \sim \text{Geom}(p).$ \textit{Geometric is recording the numbers of trials until the first success.}\\
+    \\
+    Let $0 \leq p \leq 1$, then random variable $X$ follows \textbf{negative binomial distribution} with parameters $r$ and $p$ if given $r$ successes we need $k$ failures: \[P(X = k) = {k + r - 1 \choose r - 1}p^r (1-p)^k, \quad k = 0,1,2, \dots\]
+
+    Alternatively, if given $r$ successes we need $n$ trials, \[P(X = n) = {n-1 \choose r - 1}p^r(1-p)^{n-r}, \quad n = r, r+1, r+2, \dots \]
+
+    Abbreviate this as $\mathrm{NegBin}(r, p)$, $r$ denotes number of failures/total number of trails. $E[X] = \frac{r(1-p)}{p}$ and $\mathrm{Var}(X) = \frac{r(1-p)}{p^2}$.
+    
+	\end{minipage}
+};
+%------------ independent trails Header ---------------------
+\node[fancytitle, right=10pt] at (box.north west) {Independent trials \& Distributions};
+\end{tikzpicture}
+
+%------------ Poisson Approximation of Binomial Content ---------------
+\begin{tikzpicture}
+\node [mybox] (box){%
+\footnotesize{
+    \begin{minipage}{0.32\textwidth}
+    For $\lambda > 0$, a RV $X$ has \textbf{Poisson distribution} with parameter $\lambda$ if $X$ has the p.m.f.
+    \[\mathrm{P}(X=k)=e^{-\lambda}\frac{\lambda^k}{k!}\text{ for }k\in \{0,1,2,\cdots\}\,.\]
+    Abbreviate this $X\sim \text{Poisson}(\lambda)\,.$\\
+    \[\sum_{k=0}^{\infty}e^{-\lambda}\frac{\lambda^k}{k!}=e^{-\lambda}\sum_{k=0}^{\infty}\frac{\lambda^k}{k!}=e^{-\lambda}\cdot e^\lambda=1 \to \text{valid p.m.f.}\]
+    \\
+    For $X\sim \text{Pois}(\lambda)$, $\textrm{E}[X]=\lambda$ and $\textrm{Var}[X]=\lambda$.\\
+    
+    \textbf{Poisson Approximation of Binomial:}\\
+    Let $\lambda>0$, consider positive integers $n$ such that $\lambda/n<1$. Let $S_n\sim \textrm{Bin}(n,\lambda/n).$ Then
+    \[\lim_{n\to\infty}\mathrm{P}(S_n=k)=e^{-\lambda}\frac{\lambda^k}{k!}\text{ for }k\in \{0,1,2,\cdots\}\,.\]
+    \end{minipage}}
+};
+%------------ Poisson Approximation of Binomial Header ---------------------
+\node[fancytitle, right=10pt] at (box.north west) {Poisson Approximation of Binomial};
+\end{tikzpicture}
+
+%------------ Normal Approximation of Binomial Content---------------
+\begin{tikzpicture}
+\node [mybox] (box){%
+\footnotesize{
+    \begin{minipage}{0.32\textwidth}
+    Let $X_1, \dots, X_n$ be i.i.d. random variables such that $X_i \sim \mathrm{Ber}(p)$. \textbf{Sample sum:}\\
+    
+    Let $S_n = \displaystyle \sum_{i=1}^nX_i$, then $S_n \sim \mathrm{Bin}(n, p)$ with: \\
+    $E[S_n] = np, \mathrm{Var}(S_n) = np(1-p)$.\\
+
+    Assuming $n$ is large enough such that assumptions: (1) $np \geq 10$; (2) $n(1-p) \geq 10$ are satisfied, then based on CLT, we could use \textbf{normal distribution} to approximate $\mathrm{Bin}(n,p)$:
+    
+    \[\displaystyle Z_n = \frac{S_n - E[S_n]}{SD_{S_n}} = \frac{S_n - np}{\sqrt{np(1-p)}}, Z_n \overset{d}{\longrightarrow} \mathcal{N}(0, 1) \text{ as } n \rightarrow \infty \]
+    Or: $S_n \approx \mathcal{N}\big(np, np(1-p)\big)$.\\
+
+    \textbf{Sample mean:}\\
+
+    Let $\displaystyle Y = \frac{1}{n}\sum_{i=1}^n X_i$, then $E[Y] = p, \mathrm{Var}(Y) = \frac{p(1-p)}{n}$, and based on CLT, we approximate $Y$ by \[Z_n' = \frac{1}{n}Z_n = \frac{\hat{p} - p}{\sqrt{p(1-p)/n}}, Z_n' \overset{d}{\longrightarrow}\mathcal{N} (0,1) \text{ as } n \rightarrow \infty\] where $\displaystyle \hat{p} = \frac{1}{n}\sum_{i=1}^n X_i = Y$, which means the sample proportion.
+    Or: $Y \approx \mathcal{N}\big(p, \frac{p(1-p)}{n}\big).$\\
+
+    Sample size calculation**:\\
+    \[n = \Big\lceil\left(2z_{\alpha/2}\cdot \frac{\sigma}{w}\right)^2\Big\rceil \text{ or }  \Big\lceil\frac{4z^2_{\alpha/2}(\sigma^2_1+\sigma^2_2)}{w^2}\Big\rceil \text{ (one/two population)}\]
+    \end{minipage}}
+};
+%------------ Normal Approximation of Binomial Header ---------------------
+\node[fancytitle, right=10pt] at (box.north west) {Normal Approximation of Binomial};
+\end{tikzpicture}
+
+
+%------------ Exponential Distribution Content ---------------------
+\begin{tikzpicture}
+\node [mybox] (box){%
+\footnotesize
+    \begin{minipage}{0.32\textwidth}
+    Recall $X\sim \text{Geom}(p)$ describes the ``waiting time until the first success''. Here $X = \{1,2,3,\cdots\}$ so it's discrete. \\
+    Whereas \textbf{exponential distribution:} $X\sim\text{Exp}(\lambda)$ describes the ``waiting time'' that is \textbf{continuous}.
+   \[f(x) =
+    \begin{dcases}
+        \lambda e^{-\lambda x} & x>0 \\
+        0 & \text{otherwise} \\
+    \end{dcases}
+    \]
+    \[\int_{-\infty}^{\infty}f(x)\,dx = \int_{0}^{\infty}\lambda e^{-\lambda x}\,dx = -e^{-\lambda x}\big|_{x=0}^\infty=1 \to \text{valid p.d.f.}\]
+    \\
+    For $X\sim \text{Exp}(\lambda)$, $\mathrm{E}[X]=\frac{1}{\lambda}$ and $\mathrm{Var}[X] = \frac{1}{\lambda^2}$.
+	\end{minipage}
+};
+%------------ Exponential Distribution Header ---------------------
+\node[fancytitle, right=10pt] at (box.north west) {Exponential Distribution};
+\end{tikzpicture}
+
+%------------ t Test Cont. Content ---------------------
+\begin{tikzpicture}
+\node [mybox] (box){%
+\footnotesize
+    \begin{minipage}{0.32\textwidth}
+    \textbf{Week Law of Large Number (WLLN):}\\
+    For $X_1, \dots, X_n$ i.i.d. with mean $\mu$ and variance $\sigma^2$, then $\bar{X} \overset{p}{\rightarrow}\mu$. i.e., \[\lim_{n\rightarrow\infty}P(|\bar{X}_n - \mu | < \epsilon ) = 1 \text{ (WLLN) } \quad \epsilon > 0\]
+
+    \textbf{Jensen's Inequality:}
+    \[E[g(x)] \geq g(E[X]) \text{ if } g(x) \text{ is convex,}\]
+    \[E[g(x)] \leq g(E[X]) \text{ if } g(x) \text{ is concave}\]
+
+    \textbf{Chebyshev's Inequality:}\\
+    Give a (loose) estimate of a upper-bound probability.
+    \[P\{\vert \bar{X}_n - \mu \vert \geq k\sigma\} \leq 1/k^2\]
+
+    \textbf{Consistent estimator:} (MLE is consistent)\\
+    Let $\hat{\theta}_n$ be an estimator of $\theta$, then the sequence $\{\hat{\theta}_n: n \in \mathbb{N}\}$ is said to be consistent estimator for $\theta$, if $\hat{\theta} \overset{p}{\rightarrow} \theta$. i.e., \[\forall \epsilon > 0, \quad \lim_{n \rightarrow \infty}P(|\hat{\theta}_n - \theta | > \epsilon) = 0.\]
+    \textbf{Unbiased estimator:}\\
+    Let $\hat{\theta}$ be an estimator of $\theta$, then $\mathrm{Bias}[\hat{\theta}]:= E[\hat{\theta}] - \theta$ is the bias of $\hat{\theta}$. The estimator is \textbf{unbiased} if the bias is zero, i.e., $E[\hat{\theta}] = \theta$.\\
+
+    \textbf{Maximum Likelihood Estimation:}\\
+    Suppose $y_1, y_2, \dots, y_n$ are i.i.d. samples from $f_Y(y;\theta)$, then
+    \begin{enumerate}
+        \item $\log \mathcal{L}(\theta; \boldsymbol{y}) = \sum_i \log f_Y(y_i; \theta),$
+        \item $\hat{\theta}(\boldsymbol{y}) = \arg\max_\theta \log \mathcal{L}(\theta; \boldsymbol{y})$,\item Set $\hat{\theta}(\boldsymbol{y}):= \frac{\partial\log \mathcal{L}(\theta; \boldsymbol{y})}{\partial\theta}\Big|_{\theta = \hat{\theta}} = 0$ and solve for $\hat{\theta}(\boldsymbol{y})$, need to verify second derivative is negative at $\theta = \hat{\theta}$.\\
+    \end{enumerate}
+    \textbf{Likelihood ratio test:}\\
+    Suppose we have two competing hypotheses $H_0$ and $H_1$ with parameter $\theta$ and observed data $\boldsymbol{x} = x_1, \dots, x_n$, then we have \\
+    $\displaystyle LR = \frac{\mathcal{L}(\theta = \theta_0; \boldsymbol{x})}{\mathcal{L}(\theta = \theta_1; \boldsymbol{x})} = \frac{\prod_{i=1}^n f_X(x_i; \theta_0)}{\prod_{i=1}^n f_X(x_i; \theta_1)}$.\\
+
+    \textbf{General likelihood ratio:}\\
+    Based on $LR$, we let the denominator of $LR$ by the density of the data under the MLE: \\
+    \[\Lambda = \frac{f_X(x; \theta_0)}{f_X(x; \hat{\theta})}, \quad \Lambda \in (0, 1]\]
+
+    So that the rejection region under $\alpha$, $R_\alpha = \{y:\Lambda(x) \leq k_\alpha\}$. Typically, $k_\alpha$ is given.
+    
+    \end{minipage}
+};
+%------------ t Test Cont. Header ---------------------
+\node[fancytitle, right=10pt] at (box.north west) {LLN, Chebyshev, Maximum Likelihood};
+\end{tikzpicture}
+
+
+%------------ t Test Cont. Content ---------------------
+\begin{tikzpicture}
+\node [mybox] (box){%
+\footnotesize
+    \begin{minipage}{0.32\textwidth}
+    \textbf{Type I error} $(\alpha)$:\\
+    Reject the null hypothesis $H_0$ when it's true.\\
+    \textbf{Type II error} $(\beta)$:\\
+    Not rejecting $H_0$ when it is false.\\
+    \textbf{\textit{P}-value}:\\
+    The probability that obtaining a test statistics more extreme than the current value based on the data, given the null hypothesis is true.\\
+    \end{minipage}
+};
+%------------ t Test Cont. Header ---------------------
+\node[fancytitle, right=10pt] at (box.north west) {\textit{t} Test Cont.};
+\end{tikzpicture}
+
+%------------ c.d.f. Content ---------------------
+\begin{tikzpicture}
+\node [mybox] (box){%
+\footnotesize
+    \begin{minipage}{0.32\textwidth}
+    \begin{enumerate}
+        \item The c.d.f. of a \textbf{discrete RV} is
+        \[F(s) = P(X \leq s) = \sum_{k:k\leq s}P(X=k). \]
+        \item The c.d.f. of a \textbf{continuous RV} is
+        \[F(s) = P(X \leq s) = \int_{-\infty}^s f(x)\,dx. \]
+    \end{enumerate}
+    \textbf{Recover p.d.f. from c.d.f.:}
+    c.d.f. $F$ of $X$ $\Longrightarrow$ p.d.f./p.m.f.
+    \begin{enumerate}
+        \item $F$ is piecewise constant $\to$ discrete RV:\\
+        Possible values of $X$ $\to$ locations where $F$ jumps;\\
+        If $x$ is one such point, $P(X=x)$ $\to$ magnitude of the jump.
+        \item $F$ is continuous $\to$ continuous RV:\\
+        p.d.f. $\to$ $f(x) = F'(x)$\\
+        $F$ is not differentiable at point $x$ $\to$ set $f(x)$ arbitrarily.
+    \end{enumerate}
+    
+    \textbf{General properties of c.d.f.:}
+    \begin{enumerate}
+        \item Monotonously: $s \leq t \to F(s)\leq F(t).$
+        \item \textbf{Right} continuity: for each $t \in \mathbb{R}, F(t)=\lim_{s\to t^+}F(s).$
+        \item $\lim_{t\to {-\infty}}F(t)=0$ and $\lim_{t\to \infty}F(t)=1.$
+    \end{enumerate}
+	\end{minipage}
+};
+%------------ c.d.f. Header ---------------------
+\node[fancytitle, right=10pt] at (box.north west) {c.d.f.};
+\end{tikzpicture}
+
+
+%------------ Some Useful Integrals and Derivatives Content ---------------------
+\begin{tikzpicture}
+\node [mybox] (box){%
+\footnotesize
+    \begin{minipage}{0.32\textwidth}
+    \begin{tabular}{c|c}
+        $\int\frac{1}{x}\,dx=\ln|x|+C$ & $\int a\,dx=ax+C$\\
+        \\ $\int x^n\,dx=\frac{x^{n+1}}{n+1}+C$ & $\int e^{ax}\,dx=\frac{1}{a}e^{ax}+C$\\
+        \\ $\int a^x\,dx=\frac{a^x}{\ln(a)}+C$ & $\int \ln(x)\,dx=x\ln(x)-x+C$\\
+        \\ $\int \sin x\,dx=-\cos x +C$ & $\int \cos x\,dx=-\sin x + C$\\
+        \\
+        $\int xe^x \,dx = (x-1)e^x + C$ & $\int ax\cdot e^{bx}\,dx = \frac{a(bx-1)}{b^2}e^{bx} + C$
+        
+        \\
+    \end{tabular}
+    
+    U-substitution rule:
+    \[\int(f(g(x))\,g'(x)\,dx \to \text{set }u=g(x) \to \int f(u)\,du\]
+    Partial integration:
+    \[\int uv\,dx=u\int v\,dx-\int u'(\int v\,dx)\,dx\]
+    Or:
+    \[\int u\,dv = uv-\int v\,du\]
+
+    Gamma Distribution:\\
+    $X \sim \mathrm{Gamma}(\alpha, \beta) \Rightarrow aX \sim \mathrm{Gamma}(\alpha, \beta/a)$ (shape-rate)\\
+    $\mathrm{Gamma(1, \lambda)} \equiv \mathrm{Exp}(\lambda)$, $\mathrm{Gamma}(k/2, 1/2) \equiv \chi^2_k$,\\
+    $t_n = Z/\sqrt{\chi^2_n/n}, F(m,n) = \frac{\chi^2_m/m}{\chi^2_n/n}$.\\
+    Normal Distribution:\\
+    $\displaystyle X\sim \mathcal{N}(\mu,\sigma^2) \Rightarrow f(x) = \frac{1}{\sqrt{2\pi\sigma^2}}e^{-\frac{(x-\mu)^2}{2\sigma^2}}$.
+	\end{minipage}
+};
+%------------ Some Useful Integrals and Derivatives ---------------------
+\node[fancytitle, right=10pt] at (box.north west) {Some Useful Integrals and Derivatives};
+\end{tikzpicture}
+
+\end{multicols*}
+\end{document}
+
+
+Contact GitHub API Training Shop Blog About
+© 2016 GitHub, Inc. Terms Privacy Security Status Help
